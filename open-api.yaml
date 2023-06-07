@@ -1,0 +1,193 @@
+openapi: 3.0.1
+info:
+  title: GardenCityGrubs
+  description: A plugin for looking up available food places around Singapore.
+  version: 'v1'
+servers:
+  - url: http://localhost:3333
+paths:
+  /foodPlaces:
+    get:
+      operationId: getFoodPlacesInfo
+      summary: Get the list of food places
+      parameters:
+      - in: query
+        name: searchValues
+        schema:
+            type: string
+        required: true
+        description: Keywords used to search for food and beverage places around Singapore. Maximum of 255 characters
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getFoodPlacesInfoResponse'
+
+components:
+  schemas:
+    getFoodPlacesInfoResponse:
+      type: object
+      properties:
+        uuid:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        body:
+          type: string
+        rating:
+          type: number
+        location:
+          $ref: '#/components/schemas/Location'
+        address:
+          $ref: '#/components/schemas/Address'
+        thumbnails:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        videos:
+          type: array
+        documents:
+          type: array
+        cuisine:
+          type: string
+        source:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        categoryDescription:
+          type: string
+        dataset:
+          type: string
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+        pricing:
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        companyDisplayName:
+          type: string
+        supportedLanguage:
+          type: array
+          items:
+            type: string
+        amenities:
+          type: string
+        businessHour:
+          type: array
+        contact:
+          $ref: '#/components/schemas/Contact'
+        nearestMrtStation:
+          type: string
+        officialWebsite:
+          type: string
+        officialEmail:
+          type: string
+        staYear:
+          type: string
+        group:
+          type: string
+        temporarilyClosed:
+          type: string
+        businessHourNotes:
+          $ref: '#/components/schemas/BusinessHourNotes'
+        
+    Location:
+      type: object
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    Address:
+      type: object
+      properties:
+        block:
+          type: string
+        streetName:
+          type: string
+        floorNumber:
+          type: string
+        unitNumber:
+          type: string
+        buildingName:
+          type: string
+        postalCode:
+          type: string
+
+    Media:
+      type: object
+      properties:
+        uuid:
+          type: string
+        url:
+          type: string
+        libraryUuid:
+          type: string
+        primaryFileMediumUuid:
+          type: string
+
+    Metadata:
+      type: object
+      properties:
+        updatedDate:
+          type: string
+          format: date-time
+        createdDate:
+          type: string
+          format: date-time
+
+    Review:
+      type: object
+      properties:
+        authorName:
+          type: string
+        authorURL:
+          type: string
+        language:
+          type: string
+        profilePhoto:
+          type: string
+        rating:
+          type: number
+        text:
+          type: string
+        time:
+          type: string
+          format: date-time
+
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        rel:
+          type: string
+        method:
+          type: string
+
+    Contact:
+      type: object
+      properties:
+        primaryContactNo:
+         
+
+

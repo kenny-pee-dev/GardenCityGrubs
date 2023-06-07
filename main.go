@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/go-chi/chi/v5"
@@ -12,7 +12,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var TIH_URL = "https://api.stb.gov.sg/content/food-beverages/v2/search?searchType=keyword"
+var TIH_URL = "https://api.stb.gov.sg/content/food-beverages/v2/search?searchType=keyword&limit=50"
 
 func main() {
 	err := godotenv.Load()
@@ -27,12 +27,27 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		searchValue := r.URL.Query().Get("searchValue")
+	r.Get("/.well-known/ai-plugin.json", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./ai-plugin.json")
+	})
+
+	r.Get("/open-api.yaml", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./open-api.yaml")
+	})
+
+	r.Get("/foodPlaces", func(w http.ResponseWriter, r *http.Request) {
+		searchValue := r.URL.Query().Get("searchValues")
 		client := &http.Client{}
 
-		reqURL := fmt.Sprintf("%s%s", TIH_URL, searchValue)
-		req, err := http.NewRequest("GET", reqURL, nil)
+		reqURL, err := url.Parse(TIH_URL)
+		if err != nil {
+			log.Fatal(err)
+		}
+		values := reqURL.Query()
+		values.Add("searchValues", searchValue)
+		reqURL.RawQuery = values.Encode()
+
+		req, err := http.NewRequest("GET", reqURL.String(), nil)
 		if err != nil {
 			http.Error(w, "Error creating request", http.StatusInternalServerError)
 			return

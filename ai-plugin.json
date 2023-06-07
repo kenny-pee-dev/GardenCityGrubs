@@ -1,0 +1,17 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "GardenCityGrubs",
+    "name_for_model": "gardencitygrubs",
+    "description_for_human": "For looking up available food places around Singapore.",
+    "description_for_model": "For looking up available food places around Singapore.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "https://localhost:3333/openapi.yaml"
+    },
+    "logo_url": "https://localhost:3333/static/logo.png",
+    "contact_email": "kenny-pee-dev@gmail.com",
+    "legal_info_url": "https://localhost:3333/static/legal"
+}
